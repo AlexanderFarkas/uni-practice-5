@@ -1,0 +1,45 @@
+@startuml
+ skinparam linetype ortho
+
+
+entity "Project" as project {
+  *id : number <<generated>>
+  --
+  *name : text
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+enum Status {
+  TODO
+  IN_PROGRESS
+  DONE
+}
+
+entity "Task" as task {
+  *id : number <<generated>>
+  --
+  *name : text
+  *status : Status
+  *priority : Priority
+  *project_id : number foreignkey(project.id)
+  description : text
+  due_date : date
+  assignee_id : number foreignkey(user.id)
+}
+
+entity "User" as user {
+  *id : number <<generated>>
+  --
+  *name : text
+  *email : text
+  *password : text
+}
+
+project "1" -- "many" task
+user "1" -- "many" task
+@enduml
